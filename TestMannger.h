@@ -8,7 +8,7 @@ using namespace std;
 #include <iostream>
 #include <unordered_map>
 #include <stdexcept> 
-#include <sstream>
+#include "Test.h"
 
 
 
@@ -19,7 +19,7 @@ class TestMannger{
      * @brief get the test singletone
      * @return a test object
      */
-    static TestMannger* GetTest();
+    static TestMannger& getInstance();
     /**
      * @brief add test to data
      * @param output - the output the user get
@@ -51,12 +51,7 @@ class TestMannger{
     TestMannger(const TestMannger &othertest) = delete;
     TestMannger& operator=(const TestMannger &other) = delete;
 
-    /**
-     * @brief print all the tests
-     * @param os - the os printer
-     * @return test - the test we want to print
-     */
-    void PrintStats() const;
+ 
 
     template<class Function,class T>
     /**
@@ -91,7 +86,7 @@ class TestMannger{
     
     private:
     unsigned int numoftestpass;
-    unordered_map<string, string> data;
+    unordered_map<string, Test> data;
     /**
     * @brief get the test name of the test formated
     * @param name - the name of the test
@@ -127,6 +122,14 @@ class TestMannger{
         }
         return oss.str();  // Convert the stream to a string
     }
+
+    /**
+     * @brief do operator<<
+     * to test
+     * @param os - the os we use
+     * @param test - the test we use
+     */
+    friend ostream& operator<<(ostream &os,const TestMannger &testmannger);
 
 };
 

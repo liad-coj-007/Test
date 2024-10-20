@@ -25,6 +25,13 @@ public:
      */
     string getOutput()const;
 
+    /**
+     * @brief return true if the test pass 
+     * else return false
+     * @return true/false
+     */
+    bool isPass()const;
+
 private:
     bool testpass;
     string testname;
@@ -55,7 +62,7 @@ private:
      * @brief print use the os 
      * if the test passed
      */
-    void IsPass(ostream &os)const;
+    void PassMsg(ostream &os)const;
 
     /**
      * @brief add title to print

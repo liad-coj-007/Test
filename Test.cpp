@@ -69,7 +69,7 @@ void Test::FormatData(const string &output,const string &expected){
 
 ostream& operator<<(ostream &os,const Test &test){
     test.AddTitle(os);
-    test.IsPass(os);
+    test.PassMsg(os);
     os << test.data;
     return os;
 }
@@ -86,7 +86,11 @@ string Test::getOutput()const{
     return output;
 }
 
-void Test::IsPass(ostream &os)const{
+bool Test::isPass()const{
+    return testpass;
+}
+
+void Test::PassMsg(ostream &os)const{
     const string GREEN = "\033[32m";
     const string RED = "\033[31m";
     const string RESET = "\033[0m";

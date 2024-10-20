@@ -6,9 +6,9 @@ TestMannger::TestMannger(){
     numoftestpass = 0;
 }
 
-TestMannger* TestMannger::GetTest(){
+TestMannger& TestMannger::getInstance(){
     static TestMannger testmannger;
-    return &testmannger;
+    return testmannger;
 }
 
 
@@ -57,50 +57,6 @@ string TestMannger::getTestName(const string name){
 }
 
 
-
-/**
- * @brief compare two string and find the differnce between them
- * @param str1 - the first string we equal
- * @param str2 - the second string we equal
- * @return the diff between the strings
- */
-string compareStrings(const std::string& str1, const std::string& str2) {
-   std::stringstream ss1(str1);
-    std::stringstream ss2(str2);
-    std::string line1, line2;
-    std::vector<std::string> lines1, lines2;
-
-    // Read all lines into vectors
-    while (std::getline(ss1, line1)) {
-        lines1.push_back(line1);
-    }
-    while (std::getline(ss2, line2)) {
-        lines2.push_back(line2);
-    }
-
-    std::string result;
-    size_t maxLength = std::max(lines1.size(), lines2.size());
-    for (size_t i = 0; i < maxLength; ++i) {
-        if (i < lines1.size() && i < lines2.size()) {
-            if (lines1[i] != lines2[i]) {
-                result += "--- Line " + std::to_string(i + 1) + " ---\n";
-                result += "- " + lines1[i] + "\n"; // Line from str1
-                result += "+ " + lines2[i] + "\n"; // Line from str2
-            }
-        } else if (i < lines1.size()) {
-            result += "--- Line " + std::to_string(i + 1) + " ---\n";
-            result += "- " + lines1[i] + "\n"; // Line from str1 (removed)
-        } else if (i < lines2.size()) {
-            result += "--- Line " + std::to_string(i + 1) + " ---\n";
-            result += "+ " + lines2[i] + "\n"; // Line from str2 (added)
-        }
-    }
-
-    return result.empty() ? "No differences found." : result;
-}
-
-
-
 void  TestMannger::AddTest(const string &output,const string &expected_output_path,const string &testname){
     const  string format_testname = getTestName(testname);
     string expected_output = readFileToString(expected_output_path);
@@ -110,45 +66,38 @@ void  TestMannger::AddTest(const string &output,const string &expected_output_pa
 
 void TestMannger::AddBenchMark(const string &output,const string &expected,
     const string &testname){
-    const string TESTPASS = "[TEST PASS!]";
-    const string TESTFAILD = "[TEST Failed!]\n";
-    const string EXPECTED = "Expected: ";
-    const string ACTUAL = "Actual: ";
-    const string DIFF = "Differences:\n";
-    if (output == expected) {
-        numoftestpass++;
-        data[testname] = TESTPASS;
-        return;
-    } 
-    string testfail_msg = TESTFAILD;
-    testfail_msg += EXPECTED + expected + "\n";
-    testfail_msg += ACTUAL + output + "\n";
-    testfail_msg += DIFF;
-    // Call the function to compare and display differences
-    testfail_msg += compareStrings(expected, output);
-    data[testname] = testfail_msg;
+        data[testname] = Test(testname,output,expected);
+        numoftestpass += data[testname].isPass();
 }
 
 void TestMannger::PrintTest(const string &testname) {
     if(data.find(testname) == data.end()){
         throw TestNotExsit(testname);
     }
-    cout << testname << ": " << data[testname] << endl;
+
+    cout << data[testname] << endl;
 }
 
 const string test_file_format = ".test_banchmark";
 void TestMannger::WriteTest(const string &testname) {
+  
+
     if(!(data.find(testname) != data.end())){
         throw TestNotExsit(testname);
     }
+
+    const string block =
+    "----------------------------------------";
+
     string path = testname + test_file_format;
     ofstream outFile(path);
-
     if (!outFile) {
         throw FileError(path);
     }
     // Write the string to the file
-    outFile << data[testname];
+    outFile << block << "\n\n";
+    outFile << data[testname].getOutput();
+    outFile << "\n" << block << "\n";
     outFile.close();
 }
 
@@ -161,18 +110,24 @@ double TestMannger::GetPassTestRate()const {
     return ((double)numoftestpass/data.size())*maxprecent;
 }
 
-const string space = "=================================================";
-void TestMannger::PrintStats()const {
-    cout <<"we have " << numoftestpass << " succeed " << "out of " 
-    << data.size() << endl;
-    try{
-        cout  << "The Pass Rate: " << fixed << std::setprecision(2) << 
-        GetPassTestRate() <<"%"<<endl;
-    }catch(const exception &e){
-        cout  << "[DNE]" <<endl;    
-    }
-    for(const auto& pair: data){
-        cout << space << endl;
-        cout << pair.first << ": " << pair.second << endl;
-    }
+ostream& operator<<(ostream &os,const TestMannger &testmannger){
+    const string newline = "\n";
+     os << "we have " << testmannger.numoftestpass << " succeed " << "out of " 
+     << testmannger.data.size() << newline;
+     os  << "The Pass Rate: ";
+
+     if(testmannger.data.size()){
+         os << fixed << std::setprecision(2) << 
+         testmannger.GetPassTestRate() <<"%"<< newline;
+     }else{
+        os << "[DNE]" <<newline;
+     }
+
+     for(const auto& pair: testmannger.data){
+        os << pair.second << newline;
+     }
+
+     return os;
 }
+
+
