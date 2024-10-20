@@ -18,6 +18,13 @@ public:
      */
     Test(const string &testname = "",const string &output = "",
     const string &expected = "");
+
+    /**
+     * @brief return the output of the test
+     * @return string
+     */
+    string getOutput()const;
+
 private:
     bool testpass;
     string testname;

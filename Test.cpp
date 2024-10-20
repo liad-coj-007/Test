@@ -74,32 +74,48 @@ ostream& operator<<(ostream &os,const Test &test){
     return os;
 }
 
+string Test::getOutput()const{
+    string output = testname +" : ";
+    if(testpass){
+        output += PASSFLAG;
+    }else{
+        output += fAILEDFLAG;
+    }
+    output += "\n";
+    output += data;
+    return output;
+}
+
 void Test::IsPass(ostream &os)const{
     const string GREEN = "\033[32m";
     const string RED = "\033[31m";
     const string RESET = "\033[0m";
+    const std::string BLUE = "\033[34m"; 
+
+    const string subtitle = "Test Stat: ";
+    os << BLUE << subtitle;
     if(testpass){
-        os << GREEN << " " << PASSFLAG << RESET;
+        os << GREEN << " " << PASSFLAG << RESET <<"\n";
         return;
     }
-    os << RED << " " << fAILEDFLAG << RESET << "\n";
+    os << RED << " " << fAILEDFLAG << RESET << "\n\n";
 }
 
 void Test::AddTitle(ostream &os) const{
     const int totalWidth = 40; // Total width of the title area
     const int borderLength = totalWidth; // Length of the border line
-
-    std::string border(borderLength, '=');
+    const char background = '-';
+    std::string border(borderLength, background);
     
-    os << border << std::endl;
+    os << border << "\n";
 
     // Centering the title
     int titleLength = testname.length();
-    int spaces = totalWidth - titleLength - 4; // 4 for "||" on both sides
+    int spaces = totalWidth - titleLength - 4; 
     int leftPadding = spaces / 2;
 
     os  << std::string(leftPadding, ' ') << testname 
-       << std::string(spaces - leftPadding, ' ') << std::endl;
+       << std::string(spaces - leftPadding, ' ') << "\n";
 
-    os << border << std::endl;
+    os << border << "\n\n";
 }
