@@ -68,7 +68,7 @@ void Test::FormatData(const string &output,const string &expected){
 }
 
 ostream& operator<<(ostream &os,const Test &test){
-    test.AddTitle(os);
+    os << test.getTitle();
     test.PassMsg(os);
     os << test.data;
     return os;
@@ -105,21 +105,36 @@ void Test::PassMsg(ostream &os)const{
     os << RED << " " << fAILEDFLAG << RESET << "\n\n";
 }
 
-void Test::AddTitle(ostream &os) const{
-    const int totalWidth = 40; // Total width of the title area
-    const int borderLength = totalWidth; // Length of the border line
-    const char background = '-';
-    std::string border(borderLength, background);
-    
-    os << border << "\n";
+string Test::getTitle() const{
+    const int totalWidth = 40; 
+    const char background = '-'; 
+    std::ostringstream os; 
+    std::string border(totalWidth, background);
+    os << border << "\n"; 
 
-    // Centering the title
     int titleLength = testname.length();
     int spaces = totalWidth - titleLength - 4; 
-    int leftPadding = spaces / 2;
+    int leftPadding = spaces / 2; 
 
-    os  << std::string(leftPadding, ' ') << testname 
+    os << std::string(leftPadding, ' ') << testname 
        << std::string(spaces - leftPadding, ' ') << "\n";
 
-    os << border << "\n\n";
+    os << border << "\n\n"; 
+    return os.str(); 
+}
+
+
+void Test::WriteStats(ofstream &outfile)const{
+  
+
+    outfile << getTitle();
+    const string subtitle = "Test Stat: ";
+    outfile << subtitle;
+    if(isPass()){
+        outfile << PASSFLAG << "\n";
+    }else{
+        outfile << fAILEDFLAG << "\n\n";
+    }
+    
+    outfile << data << "\n";
 }

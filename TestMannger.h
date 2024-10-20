@@ -38,7 +38,13 @@ class TestMannger{
     * @brief write the banchmark to a test file 
     * @param testname - the name of the test we want to write
     */
-    void WriteTest(const string &testname);
+    void WriteTest(const string &testname)const ;
+
+    /**
+     * @brief write all tests to file
+     * @param path the path of the file
+     */
+    void WriteTestsToFile(const string &path)const ;
 
     /**
      * @brief return the precent of the test passed
@@ -93,6 +99,20 @@ class TestMannger{
     * @return the name of the test formated
     */
     string getTestName(const string name);
+
+    /**
+     * @brief get the stats of the testmannger
+     */
+    string getStat()const;
+
+    /**
+     * @brief write to file a txt data
+     * @param testname - the name of the test
+     * we want to write to the file
+     * @param outfile - the file we write to
+     */
+    void WriteToFile(const string &testname
+    ,ofstream &outfile)const;
 
     /**
      * @brief Test constarctor

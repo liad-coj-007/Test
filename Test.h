@@ -3,6 +3,9 @@
 #include <vector>
 #include <algorithm> 
 #include <sstream>
+#include <fstream>
+#include "Exception/TestExcpetion/FileError.h"
+
 using namespace std;
 
 
@@ -31,6 +34,13 @@ public:
      * @return true/false
      */
     bool isPass()const;
+
+    /**
+     * @brief write to the file 
+     * the stats of test
+     * @param outfile - the file we write to
+     */
+    void WriteStats(ofstream &outfile)const;
 
 private:
     bool testpass;
@@ -65,10 +75,10 @@ private:
     void PassMsg(ostream &os)const;
 
     /**
-     * @brief add title to print
-     * @param os the os we use
+     * @brief return the testname formated
+     * as a title
      */
-    void AddTitle(ostream &os) const;
+    string getTitle() const;
 
     /**
      * @brief compare two string and find the differnce between them

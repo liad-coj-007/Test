@@ -78,26 +78,36 @@ void TestMannger::PrintTest(const string &testname) {
     cout << data[testname] << endl;
 }
 
-const string test_file_format = ".test_banchmark";
-void TestMannger::WriteTest(const string &testname) {
-  
 
-    if(!(data.find(testname) != data.end())){
-        throw TestNotExsit(testname);
+void TestMannger::WriteTestsToFile(const string &path) const{
+    ofstream file(path);
+    if (!file) {
+        throw FileError(path);
     }
 
-    const string block =
-    "----------------------------------------";
+    file << getStat();
+    for(const auto& pair: data){
+        pair.second.WriteStats(file);
+    }
+    file.close();
+}
+
+
+const string test_file_format = ".test_banchmark";
+void TestMannger::WriteTest(const string &testname) const {
+  
+    auto it = data.find(testname);
+    if(!(it != data.end())){
+        throw TestNotExsit(testname);
+    }
 
     string path = testname + test_file_format;
     ofstream outFile(path);
     if (!outFile) {
         throw FileError(path);
     }
-    // Write the string to the file
-    outFile << block << "\n\n";
-    outFile << data[testname].getOutput();
-    outFile << "\n" << block << "\n";
+    
+    it->second.WriteStats(outFile);
     outFile.close();
 }
 
@@ -110,19 +120,27 @@ double TestMannger::GetPassTestRate()const {
     return ((double)numoftestpass/data.size())*maxprecent;
 }
 
+
+string TestMannger::getStat()const{
+    std::ostringstream os; // Create an output string stream
+    os << "We have " << numoftestpass << " succeeded out of " 
+       << data.size() << "\n"; // Use \n for newline
+
+    os << "The Pass Rate: ";
+
+    if (data.size()) {
+        os << std::fixed << std::setprecision(2) 
+           << GetPassTestRate() << "%\n"; // Use \n for newline
+    } else {
+        os << "[DNE]\n"; // Use \n for newline
+    }
+    
+    return os.str(); 
+}
+
 ostream& operator<<(ostream &os,const TestMannger &testmannger){
-    const string newline = "\n";
-     os << "we have " << testmannger.numoftestpass << " succeed " << "out of " 
-     << testmannger.data.size() << newline;
-     os  << "The Pass Rate: ";
-
-     if(testmannger.data.size()){
-         os << fixed << std::setprecision(2) << 
-         testmannger.GetPassTestRate() <<"%"<< newline;
-     }else{
-        os << "[DNE]" <<newline;
-     }
-
+     const string newline = "\n";
+     os << testmannger.getStat();
      for(const auto& pair: testmannger.data){
         os << pair.second << newline;
      }
