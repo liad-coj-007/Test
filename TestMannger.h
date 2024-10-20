@@ -105,14 +105,7 @@ class TestMannger{
      */
     string getStat()const;
 
-    /**
-     * @brief write to file a txt data
-     * @param testname - the name of the test
-     * we want to write to the file
-     * @param outfile - the file we write to
-     */
-    void WriteToFile(const string &testname
-    ,ofstream &outfile)const;
+   
 
     /**
      * @brief Test constarctor
@@ -136,7 +129,7 @@ class TestMannger{
     string compareValues(const T& expected, const T& output) {
         std::ostringstream oss;
         if (expected == output) {
-            oss << output << " = " << expected;
+            oss << output << " == " << expected;
         } else {
             oss << output << " != " << expected;
         }

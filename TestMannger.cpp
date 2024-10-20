@@ -106,7 +106,7 @@ void TestMannger::WriteTest(const string &testname) const {
     if (!outFile) {
         throw FileError(path);
     }
-    
+
     it->second.WriteStats(outFile);
     outFile.close();
 }
