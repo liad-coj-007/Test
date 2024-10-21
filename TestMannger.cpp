@@ -1,6 +1,7 @@
 #include "TestMannger.h"
 #include <iomanip> // Include this header for std::setprecision
 #include <vector>
+#include "Design.h"
 
 TestMannger::TestMannger(){
     numoftestpass = 0;
@@ -70,12 +71,13 @@ void TestMannger::AddBenchMark(const string &output,const string &expected,
         numoftestpass += data[testname].isPass();
 }
 
-void TestMannger::PrintTest(const string &testname) {
-    if(data.find(testname) == data.end()){
+void TestMannger::PrintTest(const string &testname) const {
+    auto it = data.find(testname);
+    if(it == data.end()){
         throw TestNotExsit(testname);
     }
 
-    cout << data[testname] << endl;
+    cout << it->second << endl;
 }
 
 
@@ -120,6 +122,26 @@ double TestMannger::GetPassTestRate()const {
     return ((double)numoftestpass/data.size())*maxprecent;
 }
 
+string TestMannger::FormatRate()const{
+    ostringstream stream;
+    const double MID = 75;
+    const double LOW = 50;
+
+
+    double rate = GetPassTestRate();
+    stream << fixed << setprecision(2) << rate 
+    << "%\n";  
+    if (rate >= MID){
+        return Design::ColorString(stream.str(),Design::GREEN);  
+    }
+
+    if(rate >= LOW){
+        return Design::ColorString(stream.str(),Design::ORANGE); 
+    }
+
+    return Design::ColorString(stream.str(),Design::RED); 
+}
+
 
 string TestMannger::getStat()const{
     std::ostringstream os; // Create an output string stream
@@ -129,8 +151,7 @@ string TestMannger::getStat()const{
     os << "The Pass Rate: ";
 
     if (data.size()) {
-        os << std::fixed << std::setprecision(2) 
-           << GetPassTestRate() << "%\n"; // Use \n for newline
+        os << FormatRate() ; // Use \n for newline
     } else {
         os << "[DNE]\n"; // Use \n for newline
     }

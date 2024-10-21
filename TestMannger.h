@@ -10,11 +10,9 @@ using namespace std;
 #include <stdexcept> 
 #include "Test.h"
 
-
-
 class TestMannger{
 
-    public:
+public:
     /**
      * @brief get the test singletone
      * @return a test object
@@ -32,7 +30,7 @@ class TestMannger{
      * @brief print test benchmark of name
      * @param name - the name of the test we print
      */
-    void PrintTest(const string &testname)  ;
+    void PrintTest(const string &testname)const ;
 
     /**
     * @brief write the banchmark to a test file 
@@ -99,6 +97,11 @@ class TestMannger{
     * @return the name of the test formated
     */
     string getTestName(const string name);
+
+    /**
+     * @brief format the string rate
+     */
+    string FormatRate()const;
 
     /**
      * @brief get the stats of the testmannger
