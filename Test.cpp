@@ -4,6 +4,7 @@ using namespace std;
 #include <vector>
 #include <algorithm> 
 #include <sstream>
+#include "Design.h"
 
 const std::string Test::ACTUALFLAG = "Actual: ";
 const std::string Test::EXPECTED = "Expected: ";
@@ -91,36 +92,17 @@ bool Test::isPass()const{
 }
 
 void Test::PassMsg(ostream &os)const{
-    const string GREEN = "\033[32m";
-    const string RED = "\033[31m";
-    const string RESET = "\033[0m";
-    const std::string BLUE = "\033[34m"; 
-
     const string subtitle = "Test Stat: ";
-    os << BLUE << subtitle;
+    os << Design::ColorString(subtitle,Design::CYAN);
     if(testpass){
-        os << GREEN << " " << PASSFLAG << RESET <<"\n";
+        os << Design::ColorString(PASSFLAG,Design::GREEN)<<"\n";
         return;
     }
-    os << RED << " " << fAILEDFLAG << RESET << "\n\n";
+    os << Design::ColorString(PASSFLAG,Design::RED) << "\n\n";
 }
 
 string Test::getTitle() const{
-    const int totalWidth = 40; 
-    const char background = '-'; 
-    std::ostringstream os; 
-    std::string border(totalWidth, background);
-    os << border << "\n"; 
-
-    int titleLength = testname.length();
-    int spaces = totalWidth - titleLength - 4; 
-    int leftPadding = spaces / 2; 
-
-    os << std::string(leftPadding, ' ') << testname 
-       << std::string(spaces - leftPadding, ' ') << "\n";
-
-    os << border << "\n\n"; 
-    return os.str(); 
+    return Design::FormatTitle(testname);
 }
 
 
