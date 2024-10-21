@@ -40,7 +40,13 @@ public:
      * the stats of test
      * @param outfile - the file we write to
      */
-    void WriteStats(ofstream &outfile)const;
+    void WriteStats(ostream &outfile)const;
+
+    /**
+     * @brief return the test flag 
+     * @param iscolored - if the user want it colored
+     */
+    string getTestFlag(const bool iscolored = false)const;
 
 private:
     bool testpass;

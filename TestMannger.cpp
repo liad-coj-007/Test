@@ -87,10 +87,8 @@ void TestMannger::WriteTestsToFile(const string &path) const{
         throw FileError(path);
     }
 
-    file << getStat();
-    for(const auto& pair: data){
-        pair.second.WriteStats(file);
-    }
+    PrintFailed(file,false);
+    PrintBenchMark(file,false);
     file.close();
 }
 
@@ -143,7 +141,7 @@ string TestMannger::FormatRate()const{
 }
 
 
-string TestMannger::getStat()const{
+string TestMannger::getStat(const bool iscolored)const{
     std::ostringstream os; // Create an output string stream
     os << "We have " << numoftestpass << " succeeded out of " 
        << data.size() << "\n"; // Use \n for newline
@@ -151,7 +149,11 @@ string TestMannger::getStat()const{
     os << "The Pass Rate: ";
 
     if (data.size()) {
-        os << FormatRate() ; // Use \n for newline
+        if(iscolored){
+            os << FormatRate() ; 
+        }else{
+            os << fixed << setprecision(2) << GetPassTestRate();
+        }
     } else {
         os << "[DNE]\n"; // Use \n for newline
     }
@@ -159,14 +161,56 @@ string TestMannger::getStat()const{
     return os.str(); 
 }
 
-ostream& operator<<(ostream &os,const TestMannger &testmannger){
-     const string newline = "\n";
-     os << testmannger.getStat();
-     for(const auto& pair: testmannger.data){
-        os << pair.second << newline;
-     }
 
-     return os;
+void TestMannger::PrintBenchMark(ostream &os,
+const bool iscolored) const {
+    const string newline = "\n";
+    const string testdash = "| ";
+    if(iscolored){
+        os <<  Design::FormatBigTitle("TESTS BENCHMARK",
+        Design::ORANGE);
+    }else{
+        os << Design::FormatBigTitle("TESTS BENCHMARK");
+    }
+  
+    os << getStat(iscolored) <<"\n";
+    for(const auto& pair: data){
+        os << testdash << pair.second.getTestFlag(iscolored) << newline; 
+    }
+    os << "\n" << Design::Border() << "\n";
+}
+
+void TestMannger::PrintFailed(ostream &os,
+const bool iscolored) const {
+    if(numoftestpass == data.size()){
+        return;
+    }
+
+    if(iscolored){
+        os << Design::FormatBigTitle("FAILED TESTS",
+        Design::RED);
+        for(const auto & pair: data){
+            if(!pair.second.isPass()){
+                os << pair.second << "\n";
+            }
+        }
+    }else{
+        os << Design::FormatBigTitle("FAILED TESTS");
+        for(const auto & pair: data){
+            if(!pair.second.isPass()){
+                pair.second.WriteStats(os);
+                os << "\n";
+            }
+        }
+    }
+
+    os << "\n" <<Design::Border() << "\n\n";
+}
+
+ostream& operator<<(ostream &os,const TestMannger &testmannger){
+    testmannger.PrintFailed(os);
+    testmannger.PrintBenchMark(os);
+    return os;
 }
 
 

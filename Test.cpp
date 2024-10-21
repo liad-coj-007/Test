@@ -98,7 +98,7 @@ void Test::PassMsg(ostream &os)const{
         os << Design::ColorString(PASSFLAG,Design::GREEN)<<"\n";
         return;
     }
-    os << Design::ColorString(PASSFLAG,Design::RED) << "\n\n";
+    os << Design::ColorString(fAILEDFLAG,Design::RED) << "\n\n";
 }
 
 string Test::getTitle() const{
@@ -106,9 +106,31 @@ string Test::getTitle() const{
 }
 
 
-void Test::WriteStats(ofstream &outfile)const{
-  
+string Test::getTestFlag(const bool iscolored)const{
+    std::ostringstream oss;
 
+        const int flagWidth = 30;
+        string name =  testname +": ";
+        oss << std::left << std::setw(flagWidth) << name;
+        if(iscolored){
+            if (isPass()) {
+                oss << Design::ColorString(PASSFLAG, Design::GREEN);
+            } else {
+                oss  << Design::ColorString(fAILEDFLAG, Design::RED);
+            }
+        }else{
+            if (isPass()) {
+                oss << PASSFLAG;
+            } else {
+                oss  << fAILEDFLAG;
+            }
+        }
+       
+        return oss.str();
+}
+
+
+void Test::WriteStats(ostream &outfile)const{
     outfile << getTitle();
     const string subtitle = "Test Stat: ";
     outfile << subtitle;

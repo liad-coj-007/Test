@@ -105,8 +105,25 @@ public:
 
     /**
      * @brief get the stats of the testmannger
+     * @param iscolored - if the stat has colors
      */
-    string getStat()const;
+    string getStat(const bool iscolored = true)const;
+
+    /**
+     * @brief print benchmarke table
+     * @param os - the os we use
+     */
+    void PrintBenchMark(ostream &os,
+    const bool iscolored = true) const ;
+
+
+    /**
+     * @brief print all the failed test
+     */
+    void PrintFailed(ostream &os,
+    const bool iscolored = true)const;
+
+
 
    
 
