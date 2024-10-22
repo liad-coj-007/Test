@@ -1,0 +1,2 @@
+/usr/bin/ar qc libExceptionLib.a CMakeFiles/ExceptionLib.dir/DivideByZero.cpp.o
+/usr/bin/ranlib libExceptionLib.a

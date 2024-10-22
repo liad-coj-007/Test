@@ -59,7 +59,7 @@ string TestMannger::getTestName(const string name){
 
 
 void  TestMannger::AddTest(const string &output,const string &expected_output_path,const string &testname){
-    const  string format_testname = getTestName(testname);
+    const string format_testname = getTestName(testname);
     string expected_output = readFileToString(expected_output_path);
     AddBenchMark(output,expected_output,format_testname);
 }

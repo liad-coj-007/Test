@@ -1,8 +1,8 @@
 using namespace std;
-#include "Exception/TestExcpetion/FileError.h"
-#include "Exception/TestExcpetion/InvaildName.h"
-#include "Exception/TestExcpetion/TestNotExsit.h"
-#include "Exception/DivideByZero.h"
+#include "../Exception/TestExcpetion/FileError.h"
+#include "../Exception/TestExcpetion/InvaildName.h"
+#include "../Exception/TestExcpetion/TestNotExsit.h"
+#include "../Exception/DivideByZero.h"
 #include <fstream>
 #include <string>   // For std::string
 #include <iostream>
@@ -122,10 +122,6 @@ public:
      */
     void PrintFailed(ostream &os,
     const bool iscolored = true)const;
-
-
-
-   
 
     /**
      * @brief Test constarctor

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/TestMannger.cpp.o CMakeFiles/main.dir/Test.cpp.o CMakeFiles/main.dir/Design.cpp.o -o main  Exception/libExceptionLib.a Exception/TestExcpetion/libExceptionTestLib.a 
