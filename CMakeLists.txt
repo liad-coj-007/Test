@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(TestManagerLib)
 
+# Find the ExceptionLib
+find_package(ExceptionLib REQUIRED PATHS /root/projects/test/lib/cmake/ExceptionLib)
+
 # Include directories for headers
 add_library(TestManagerLib
     src/TestMannger.cpp
@@ -11,8 +14,11 @@ add_library(TestManagerLib
 # Specify where to find the include headers
 target_include_directories(TestManagerLib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>  # for the install step
+    $<INSTALL_INTERFACE:include>
 )
+
+# Link ExceptionLib with TestManagerLib
+target_link_libraries(TestManagerLib PUBLIC ExceptionLib)
 
 # Set C++ standard
 set_target_properties(TestManagerLib PROPERTIES
@@ -22,17 +28,15 @@ set_target_properties(TestManagerLib PROPERTIES
 
 # Installation instructions (to export the library)
 install(TARGETS TestManagerLib
-    EXPORT TestManagerLibConfig        # Export the target
-    ARCHIVE DESTINATION lib            # Static libraries
-    LIBRARY DESTINATION lib            # Shared libraries
-    RUNTIME DESTINATION bin            # Executables (if applicable)
+    EXPORT TestManagerLibConfig
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
 )
 
-# Install header files
-install(DIRECTORY include/ DESTINATION include)
-
-# Create the config files for the library export
+# Create the export configuration file
 install(EXPORT TestManagerLibConfig
     FILE TestManagerLibConfig.cmake
+    NAMESPACE TestManagerLib::
     DESTINATION lib/cmake/TestManagerLib
 )

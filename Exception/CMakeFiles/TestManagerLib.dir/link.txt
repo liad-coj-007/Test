@@ -1,0 +1,2 @@
+/usr/bin/ar qc libTestManagerLib.a CMakeFiles/TestManagerLib.dir/src/TestMannger.cpp.o CMakeFiles/TestManagerLib.dir/src/Test.cpp.o CMakeFiles/TestManagerLib.dir/src/Design.cpp.o
+/usr/bin/ranlib libTestManagerLib.a

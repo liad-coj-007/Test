@@ -1,0 +1,7 @@
+/root/projects/test/Exception/build/CMakeFiles/ExceptionLib.dir
+/root/projects/test/Exception/build/CMakeFiles/edit_cache.dir
+/root/projects/test/Exception/build/CMakeFiles/rebuild_cache.dir
+/root/projects/test/Exception/build/CMakeFiles/list_install_components.dir
+/root/projects/test/Exception/build/CMakeFiles/install.dir
+/root/projects/test/Exception/build/CMakeFiles/install/local.dir
+/root/projects/test/Exception/build/CMakeFiles/install/strip.dir

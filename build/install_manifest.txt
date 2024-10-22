@@ -1,6 +1,3 @@
-/path/to/install/directory/lib/libTestManagerLib.a
-/path/to/install/directory/include/Design.h
-/path/to/install/directory/include/TestMannger.h
-/path/to/install/directory/include/Test.h
-/path/to/install/directory/lib/cmake/TestManagerLib/TestManagerLibConfig.cmake
-/path/to/install/directory/lib/cmake/TestManagerLib/TestManagerLibConfig-noconfig.cmake
+/root/projects/test/lib/libTestManagerLib.a
+/root/projects/test/lib/cmake/TestManagerLib/TestManagerLibConfig.cmake
+/root/projects/test/lib/cmake/TestManagerLib/TestManagerLibConfig-noconfig.cmake

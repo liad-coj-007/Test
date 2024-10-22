@@ -55,7 +55,7 @@ add_library(TestManagerLib::TestManagerLib STATIC IMPORTED)
 
 set_target_properties(TestManagerLib::TestManagerLib PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "ExceptionLib"
+  INTERFACE_LINK_LIBRARIES "ExceptionLib::ExceptionLib"
 )
 
 if(CMAKE_VERSION VERSION_LESS 2.8.12)

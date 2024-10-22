@@ -1,0 +1,3 @@
+/root/projects/test/lib/libExceptionLib.a
+/root/projects/test/lib/cmake/ExceptionLib/ExceptionLibConfig.cmake
+/root/projects/test/lib/cmake/ExceptionLib/ExceptionLibConfig-noconfig.cmake

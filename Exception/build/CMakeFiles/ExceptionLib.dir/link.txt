@@ -1,0 +1,2 @@
+/usr/bin/ar qc libExceptionLib.a CMakeFiles/ExceptionLib.dir/DivideByZero.cpp.o CMakeFiles/ExceptionLib.dir/TestExcpetion/InvaildName.cpp.o CMakeFiles/ExceptionLib.dir/TestExcpetion/TestNotExsit.cpp.o CMakeFiles/ExceptionLib.dir/TestExcpetion/FileError.cpp.o
+/usr/bin/ranlib libExceptionLib.a
